@@ -8,13 +8,13 @@ permalink: /
 
 # Overview
 
-Students should define a project and work on it over ~7 weeks (Oct 20 - December 5).
+Project work begins in Week 2, on September 16, and continues through December 9.
 
 Projects should be chosen to be relevant to UBC campus life (to assist students, staff, faculty, community members, ...).
 
 Team work is important.
 
-The scope of the project should reflect group size and be equivalent of 1 credit of work. In other words, each student should expect to spend ~3 hours a week on the project. This would be ~15 person hours of work each week and ~105 person hours of work over the entire term.
+The scope of the project should reflect the group size and require approximately 105 person-hours for a five-person team. Starting in Week 2 gives teams more time for design and iteration; it is not intended to increase the project scope.
 
 Each project should involve:
 
@@ -156,7 +156,7 @@ Having articulated the problem, it is now time to envision a solution.
 
 - **Your design should adequately address your problem**. It doesn't have to be a *perfect* solution to a *big* problem; a meaningful, *incremental* solution to a *small* problem is just fine. The focus of this class is on engineering, not design.
 - **Your design must be interactive**. It cannot be static content; it must accept and respond to some form of user input.
-- **Your design should be something your team can implement in *4 weeks* of part-time effort**. Your solution should be a [minimally viable product](https://en.wikipedia.org/wiki/Minimum_viable_product), which provides value to your target audience, but doesn't necessarily achieve all possible functionality. That means real functionality and real content (if appropriate), but not *all* the functionality you can imagine or *all* of the content you can imagine. Think of YouTube, but just video playing, basic video uploading, like and dislike buttons, and ten of the best cat videos you've ever seen. That's enough to provide the smallest possible value that YouTube can provide (and probably pretty close to what they initially launched).
+- **Your design should be something your team can implement in *5 weeks* of part-time effort**. Your solution should be a [minimally viable product](https://en.wikipedia.org/wiki/Minimum_viable_product), which provides value to your target audience, but doesn't necessarily achieve all possible functionality. That means real functionality and real content (if appropriate), but not *all* the functionality you can imagine or *all* of the content you can imagine. Think of YouTube, but just video playing, basic video uploading, like and dislike buttons, and ten of the best cat videos you've ever seen. That's enough to provide the smallest possible value that YouTube can provide (and probably pretty close to what they initially launched).
 - **You should be able to build your solution using free components and services**. Don't spend your own money. You can if you want, but you're not required to, and if you do, be sensitive to your teammates' concerns about this.
 - **What you build doesn't have to be a graphical user interface.** If you want to build something command line based or even an API, that's okay too. You still need to specify how someone interacts with your design, detailing the commands or APIs that you want to build and explaining in natural language what their behavior is.
 
@@ -347,7 +347,7 @@ To make a *good* plan, brainstorm disasters that might happen and test your pla
 
 # Release
 
-In about four weeks, you're going to launch your 1.0 product. Excited? Daunted? We hope both! If you've done a good job preparing for your implementation phase, there are several things that should make your process smooth and uneventful:
+In about five weeks, you're going to launch your 1.0 product. Excited? Daunted? We hope both! If you've done a good job preparing for your implementation phase, there are several things that should make your process smooth and uneventful:
 
 - You should know what components you need to build and who is building them.
 - You should know how you're going to verify that your product meets its requirements.
@@ -365,7 +365,7 @@ Next, review your plan to make sure everyone agrees on it:
 - Who owns what?
 - What are your milestones?
 - How will you communicate and coordinate your work?
-- How will you use your time over the next four weeks?
+- How will you use your time over the next five weeks?
 
 > **What to Submit**
 
@@ -377,8 +377,8 @@ Next, review your plan to make sure everyone agrees on it:
 - known bugs;
 - a contributions statement.
 - a demo or a video showing a walkthrough of your product:
-    - **Demos will be on December 4, during the regular lecture time in Kaiser 2020/2030**
-    - Video submission only needed if live demo cannot be done for any purpose. 
+    - **Live-demo details will be announced separately.**
+    - Submit a video only if a live demo cannot be completed.
 
 # Evaluate and Triage
 
@@ -432,37 +432,21 @@ This is to be done individually.
   <figcaption>The milestone schedule divides the project into staged submissions.</figcaption>
 </figure>
 
-- The project has a weight of 25, which is divided across the different phases/aspects of project work. 
-- Each milestone covers one or more phases of project development, and there is a submission associated with each milestone. 
-- We will assign a letter grade/score (between 0 and 10) for each submission.
-- Deadline is  EOD (11:59pm) for any milestone date. (E.g., October 27 deadline, means October 27, 11:59pm)
+The project launches on **Wednesday, September 16**. Each deliverable has its own milestone so that teams receive feedback before moving to the next stage.
 
-> **Milestone 1 (October 27)**
+The project has a weight of 25, divided across the phases of project work. We will assign a letter grade or score between 0 and 10 for each submission. Every deadline below is **11:59 p.m. Pacific Time** on the date shown.
 
-- [Design your Team](#design-your-team) (points: 3)
-- [Design Your Solution](#design-your-solution) (points: 2)
-
-> **Milestone 2 (October 31)**
-
-- [Requirements](#requirements) (points: 2)
-- [Architecture](#architecture) (points: 2)
-
-> **Milestone 3 (November 7)**
-
-- [Plan](#plan) (points: 6)
-
-> **Milestone 4 (**~~**November 28**~~ **November 30)**
-
-- [Release](#release) (points: 5)
-
-> **Milestone 5 (December 6)**
-
-- [Evaluate and Triage](#evaluate-and-triage) (points: 2, “Evaluate" only)
-
-> **Milestone 6 (December 9)**
-
-- Triage (point: 1)
-- [Reflect](#reflect) (points: 2 -- completed individually)
+| Milestone | Deliverable | Due | Points |
+|---|---|---:|---:|
+| 1 | [Design your Team](#design-your-team) | Friday, September 25 | 3 |
+| 2 | [Design Your Solution](#design-your-solution) | Friday, October 2 | 2 |
+| 3 | [Requirements](#requirements) | Friday, October 9 | 2 |
+| 4 | [Architecture](#architecture) | Friday, October 16 | 2 |
+| 5 | [Plan](#plan) | Friday, October 23 | 6 |
+| 6 | [Release](#release) | Friday, November 27 | 5 |
+| 7 | [Evaluate](#evaluate-and-triage) | Wednesday, December 2 | 2 |
+| 8 | [Triage](#evaluate-and-triage) | Friday, December 4 | 1 |
+| 9 | [Reflect](#reflect) *(individual)* | Wednesday, December 9 | 2 |
 
 ---
 

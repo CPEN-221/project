@@ -54,6 +54,19 @@ REQUIRED_IMAGES = (
     "project-notes.jpeg",
 )
 
+REQUIRED_SCHEDULE = (
+    "Wednesday, September 16",
+    "Friday, September 25",
+    "Friday, October 2",
+    "Friday, October 9",
+    "Friday, October 16",
+    "Friday, October 23",
+    "Friday, November 27",
+    "Wednesday, December 2",
+    "Friday, December 4",
+    "Wednesday, December 9",
+)
+
 
 class PageParser(HTMLParser):
     def __init__(self) -> None:
@@ -158,6 +171,25 @@ def check_source(errors: list[str]) -> None:
     for stale in ("craftdocs://", "CPEN%20221A%20-%20Team%20Project.assets"):
         if stale in index_text:
             fail(errors, f"stale exported reference remains in index.md: {stale}")
+
+    for stale in (
+        "Project at a glance",
+        "October 20",
+        "December 5",
+        "Kaiser 2020/2030",
+    ):
+        if stale in index_text or stale in (ROOT / "_layouts" / "default.html").read_text(encoding="utf-8"):
+            fail(errors, f"obsolete project-site text remains: {stale}")
+
+    for date in REQUIRED_SCHEDULE:
+        if date not in index_text:
+            fail(errors, f"missing Fall 2026 schedule date: {date}")
+
+    milestone_rows = re.findall(r"^\| ([1-9]) \|.*?\| (\d+) \|$", index_text, re.MULTILINE)
+    if len(milestone_rows) != 9:
+        fail(errors, "expected nine separate milestone rows")
+    elif sum(int(points) for _, points in milestone_rows) != 25:
+        fail(errors, "milestone points must total 25")
 
     for image in REQUIRED_IMAGES:
         if index_text.count(image) != 1:
