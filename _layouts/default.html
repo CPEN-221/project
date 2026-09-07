@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en-CA' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#082f55">
+    {% seo %}
+    {% assign asset_version = site.time | date: '%s' %}
+    <link rel="stylesheet" href="{{ '/assets/fonts/fonts.css' | relative_url }}?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ asset_version }}">
+    <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ asset_version }}" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#project-content">Skip to project guide</a>
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header" id="top">
+      <div class="header-inner">
+        <a class="course-mark" href="{{ '/' | relative_url }}" aria-label="CPEN 221 team project home">
+          <strong>UBC</strong>
+        </a>
+        <p>Electrical and Computer Engineering</p>
+        <nav class="header-nav" aria-label="Primary navigation">
+          <a href="{{ '/#overview' | relative_url }}">Project guide</a>
+          <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
+          <a href="https://cpen-221.github.io/fall2026/">Course syllabus</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">CPEN 221A · Team project</p>
+          <h1 id="page-title">Team Project</h1>
+        </div>
+        <p class="term-badge">{{ page.term | default: 'Fall 2026' }}</p>
+      </div>
+    </section>
+
+    {% if page.url == '/' %}
+      <section class="course-overview" aria-labelledby="overview-title">
+        <div class="overview-inner">
+          <h2 id="overview-title">Project at a glance</h2>
+          <div class="overview-grid">
+            <article class="overview-card">
+              <h3>Seven weeks</h3>
+              <p>Project work runs from October 20 through December 5.</p>
+              <a href="#overview">Review the scope</a>
+            </article>
+            <article class="overview-card">
+              <h3>Team commitment</h3>
+              <p>Plan for approximately three hours per student each week and 105 person-hours for a five-person team.</p>
+              <a href="#design-your-team">Design your team</a>
+            </article>
+            <article class="overview-card">
+              <h3>Six milestones</h3>
+              <p>The staged submissions cover team design, solution design, requirements, architecture, planning, release, evaluation, and reflection.</p>
+              <a href="#milestones">See dates and weights</a>
+            </article>
+          </div>
+          <aside class="policy-callout" aria-label="Generative AI guidance">
+            <strong>Generative AI</strong>
+            <p>Use is permitted when you document your prompts and explain how you verified correctness. Consider the environmental cost of use.</p>
+            <a href="#overview">Read the guidance</a>
+          </aside>
+        </div>
+      </section>
+    {% endif %}
+
+    <details class="mobile-toc">
+      <summary>Jump to a project stage</summary>
+      <nav aria-label="Mobile project sections">
+        <a href="{{ '/#overview' | relative_url }}">Overview</a>
+        <a href="{{ '/#design-your-team' | relative_url }}">Team</a>
+        <a href="{{ '/#design-your-solution' | relative_url }}">Solution</a>
+        <a href="{{ '/#requirements' | relative_url }}">Requirements</a>
+        <a href="{{ '/#architecture' | relative_url }}">Architecture</a>
+        <a href="{{ '/#plan' | relative_url }}">Plan</a>
+        <a href="{{ '/#release' | relative_url }}">Release</a>
+        <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate</a>
+        <a href="{{ '/#reflect' | relative_url }}">Reflect</a>
+        <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
+        <a href="{{ '/#notes' | relative_url }}">Notes</a>
+      </nav>
+    </details>
+
+    <div class="page-shell">
+      <aside class="section-rail">
+        <nav aria-label="Project sections">
+          <p class="rail-label">Project stages</p>
+          <a href="{{ '/#overview' | relative_url }}">Overview</a>
+          <a href="{{ '/#design-your-team' | relative_url }}">Design your team</a>
+          <a href="{{ '/#design-your-solution' | relative_url }}">Design your solution</a>
+          <a href="{{ '/#requirements' | relative_url }}">Requirements</a>
+          <a href="{{ '/#architecture' | relative_url }}">Architecture</a>
+          <a href="{{ '/#plan' | relative_url }}">Plan</a>
+          <a href="{{ '/#release' | relative_url }}">Release</a>
+          <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate and triage</a>
+          <a href="{{ '/#reflect' | relative_url }}">Reflect</a>
+          <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
+          <a href="{{ '/#notes' | relative_url }}">Notes</a>
+        </nav>
+      </aside>
+
+      <main id="project-content" class="syllabus-content project-content" tabindex="-1">
+        {{ content }}
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div>
+        <p><strong>CPEN 221A</strong> · Team Project · Fall 2026</p>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

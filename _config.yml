@@ -1,0 +1,27 @@
+title: CPEN 221 — Team Project
+description: Team project guide, milestones, and supporting notes for CPEN 221A, Fall 2026.
+lang: en-CA
+timezone: America/Vancouver
+url: "https://cpen-221.github.io"
+baseurl: "/project"
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - assets/fonts/README.md
+  - assets/images/README.md
+  - scripts
+  - source
+  - vendor
+
+strict_front_matter: true
