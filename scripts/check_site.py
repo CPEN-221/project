@@ -26,7 +26,13 @@ REQUIRED_FILES = (
     "404.html",
     "assets/css/main.scss",
     "assets/js/site.js",
+    "assets/js/typeface-switcher.js",
     "assets/fonts/fonts.css",
+    "assets/fonts/licenses/googlesanscode-OFL.txt",
+    "assets/fonts/licenses/googlesansflex-OFL.txt",
+    "assets/fonts/licenses/ibmplexmono-OFL.txt",
+    "assets/fonts/licenses/ibmplexsans-OFL.txt",
+    "assets/fonts/licenses/ibmplexserif-OFL.txt",
     "assets/images/arithmetic-question.jpeg",
     "assets/images/arithmetic-feedback.jpeg",
     "assets/images/arithmetic-game-over.jpeg",
@@ -83,6 +89,7 @@ class PageParser(HTMLParser):
         self.landmarks: set[str] = set()
         self.images_without_alt: list[str] = []
         self.title_parts: list[str] = []
+        self.typeface_pickers = 0
         self._in_title = False
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -100,6 +107,8 @@ class PageParser(HTMLParser):
             self.references.append(("href", values["href"] or ""))
         if tag == "img" and not (values.get("alt") or "").strip():
             self.images_without_alt.append(values.get("src") or "unknown image")
+        if tag == "select" and "data-typeface-picker" in values:
+            self.typeface_pickers += 1
         if tag == "title":
             self._in_title = True
 
@@ -222,13 +231,47 @@ def check_source(errors: list[str]) -> None:
         if not match or not match.group(1).strip():
             fail(errors, f"image is missing alt text: {tag}")
 
-    font_css = (ROOT / "assets" / "fonts" / "fonts.css").read_text(encoding="utf-8")
-    if "IBM Plex Sans" not in font_css or "IBM Plex Mono" not in font_css:
-        fail(errors, "local IBM Plex font declarations are incomplete")
+    font_css_path = ROOT / "assets" / "fonts" / "fonts.css"
+    font_css = font_css_path.read_text(encoding="utf-8")
+    for family in (
+        "IBM Plex Serif",
+        "IBM Plex Sans",
+        "IBM Plex Mono",
+        "Google Sans Flex",
+        "Google Sans Code",
+    ):
+        if family not in font_css:
+            fail(errors, f"font stylesheet does not define {family}")
+    if re.search(r"(?:@import|https?://)", font_css):
+        fail(errors, "font stylesheet must use only self-hosted assets")
     for value in re.findall(r"url\((?:['\"])?([^)'\"]+)", font_css):
         font = ROOT / "assets" / "fonts" / value
         if not font.is_file():
             fail(errors, f"missing font referenced by fonts.css: {value}")
+
+    layout = (ROOT / "_layouts" / "default.html").read_text(encoding="utf-8")
+    if "data-typeface-picker" not in layout:
+        fail(errors, "layout is missing the reading-type selector")
+    for value in ('value="plex"', 'value="google-sans"'):
+        if value not in layout:
+            fail(errors, f"layout is missing typeface option {value}")
+    if "typeface-switcher.js" not in layout:
+        fail(errors, "layout does not load the typeface switcher")
+
+    switcher = (ROOT / "assets/js/typeface-switcher.js").read_text(encoding="utf-8")
+    for value in ('"plex"', '"google-sans"', '"cpen221-typeface"'):
+        if value not in switcher:
+            fail(errors, f"typeface switcher is missing {value}")
+
+    css = (ROOT / "assets" / "css" / "main.scss").read_text(encoding="utf-8")
+    if css.count("{") != css.count("}"):
+        fail(errors, "stylesheet braces are unbalanced")
+    for value in (
+        'html[data-typeface="plex"]',
+        'html[data-typeface="google-sans"]',
+    ):
+        if value not in css:
+            fail(errors, f"stylesheet is missing the mapping for {value}")
 
 
 def check_build(errors: list[str]) -> None:
@@ -285,6 +328,11 @@ def check_build(errors: list[str]) -> None:
             fail(errors, "built project-notes page title is incorrect")
 
     for page, parser in parsed_pages.items():
+        if parser.typeface_pickers != 1:
+            fail(
+                errors,
+                f"{page.relative_to(BUILD.resolve())}: expected one reading-type selector",
+            )
         for image in parser.images_without_alt:
             fail(errors, f"{page.relative_to(BUILD.resolve())}: image has empty alt text: {image}")
 

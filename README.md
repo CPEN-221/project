@@ -8,7 +8,9 @@ that can be edited directly. Run `python3 scripts/import_project.py` after updat
 the imported description; the script regenerates `index.md` only.
 
 The site shares the course syllabus's institutional visual system and self-hosted
-IBM Plex Sans and IBM Plex Mono fonts.
+font assets. Readers can choose IBM Plex Serif with IBM Plex Sans and IBM Plex
+Mono, or Google Sans Flex with Google Sans Code. The choice is retained in the
+browser and shared with the CPEN 221 readings and syllabus sites.
 
 ## Preview locally
 
