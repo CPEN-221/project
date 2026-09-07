@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Convert the archived project handout into the published Jekyll pages.
+"""Convert the archived project handout into the published project guide.
 
 The archived Markdown is kept unchanged in ``source/``.  This importer fixes
 formatting introduced by the document export, rewrites internal links, and
-adds accessible local figures. Run it whenever the archived copy changes.
+adds accessible local figures. The separately edited project notes are not
+regenerated. Run this script whenever the archived copy changes.
 """
 
 from __future__ import annotations
@@ -15,7 +16,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "source" / "project-description.md"
 GUIDE_OUTPUT = ROOT / "index.md"
-NOTES_OUTPUT = ROOT / "notes.md"
 
 GUIDE_FRONT_MATTER = """---
 layout: default
@@ -24,17 +24,6 @@ description: Project stages and submission milestones for CPEN 221A.
 hero_title: Team Project
 term: Fall 2026
 permalink: /
----
-
-"""
-
-NOTES_FRONT_MATTER = """---
-layout: default
-title: Project notes
-description: Supporting software design and requirements notes for the CPEN 221A team project.
-hero_title: Project Notes
-term: Fall 2026
-permalink: /notes/
 ---
 
 """
@@ -108,7 +97,6 @@ FIGURES = {
 </figure>""",
     "![](CPEN%20221A%20-%20Team%20Project.assets/654BF96F-FFB9-45D8-9C2C-43FD7FA6DC36_jpeg_preview.png)": """<figure class="project-figure project-figure--wide">
   <img src="{{ '/assets/images/project-notes.jpeg' | relative_url }}" alt="An open notebook with handwritten annotations and diagrams resting on a desk.">
-  <figcaption>The supporting notes collect the design and requirements material used across the project.</figcaption>
 </figure>""",
 }
 
@@ -199,18 +187,13 @@ def render(source: str) -> str:
     return GUIDE_FRONT_MATTER + guide + "\n"
 
 
-def render_notes(source: str) -> str:
-    """Return the publishable project-notes Markdown."""
-    _, notes = _split_pages(_render_body(source))
-    return NOTES_FRONT_MATTER + notes + "\n"
-
-
 def main() -> None:
     source = SOURCE.read_text(encoding="utf-8")
     GUIDE_OUTPUT.write_text(render(source), encoding="utf-8")
-    NOTES_OUTPUT.write_text(render_notes(source), encoding="utf-8")
-    outputs = f"{GUIDE_OUTPUT.relative_to(ROOT)} and {NOTES_OUTPUT.relative_to(ROOT)}"
-    print(f"Generated {outputs} from {SOURCE.relative_to(ROOT)}")
+    print(
+        f"Generated {GUIDE_OUTPUT.relative_to(ROOT)} "
+        f"from {SOURCE.relative_to(ROOT)}"
+    )
 
 
 if __name__ == "__main__":

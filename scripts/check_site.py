@@ -9,7 +9,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-from import_project import SOURCE, render, render_notes
+from import_project import SOURCE, render
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,8 +48,8 @@ REQUIRED_GUIDE_SECTIONS = (
 )
 
 REQUIRED_NOTE_SECTIONS = (
-    "software-design-from-observation-to-values",
-    "designing-responsibly-from-divergence-to-social-impact",
+    "software-design-observation-interviews-and-values",
+    "responsible-design-generating-ideas-and-checking-consequences",
     "software-requirements",
 )
 
@@ -156,8 +156,6 @@ def check_source(errors: list[str]) -> None:
     notes_text = NOTES.read_text(encoding="utf-8") if NOTES.exists() else ""
     if index_text != render(source_text):
         fail(errors, "index.md is stale; run python3 scripts/import_project.py")
-    if notes_text != render_notes(source_text):
-        fail(errors, "notes.md is stale; run python3 scripts/import_project.py")
 
     if ORIGINAL.exists() and SOURCE.read_bytes() != ORIGINAL.read_bytes():
         fail(errors, "source/project-description.md differs from the imported handout")
@@ -178,9 +176,9 @@ def check_source(errors: list[str]) -> None:
             fail(errors, f"missing project section: {heading}")
 
     for heading in (
-        "# Software Design: From Observation to Values",
-        "# Designing Responsibly: From Divergence to Social Impact",
-        "# Software Requirements",
+        "# Software design: observation, interviews, and values",
+        "# Responsible design: generating ideas and checking consequences",
+        "# Software requirements",
     ):
         if heading not in notes_text:
             fail(errors, f"missing project-notes section: {heading}")

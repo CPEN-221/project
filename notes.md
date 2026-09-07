@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Project notes
-description: Supporting software design and requirements notes for the CPEN 221A team project.
+description: Notes on software design and requirements for the CPEN 221A team project.
 hero_title: Project Notes
 term: Fall 2026
 permalink: /notes/
@@ -9,414 +9,256 @@ permalink: /notes/
 
 <figure class="project-figure project-figure--wide">
   <img src="{{ '/assets/images/project-notes.jpeg' | relative_url }}" alt="An open notebook with handwritten annotations and diagrams resting on a desk.">
-  <figcaption>The supporting notes collect the design and requirements material used across the project.</figcaption>
 </figure>
 
-# Software Design: From Observation to Values
+# Software design: observation, interviews, and values
 
-## **1. What We Mean by “Design”**
+For this project, design begins before you decide what to build. You first need to understand what people are trying to do, where the current situation fails them, and which constraints matter. Only then can you make a defensible choice about the software.
 
-Software design is more than implementation or syntax. It includes how a system **looks**, **works**, and **is structured**.
+## 1. What counts as design
 
-- **Visual design** – colors, layout, readability.
-- **Interaction design** – how users engage with the system; what feels natural or frustrating.
-- **Conceptual design** – how the internal structure aligns with the system’s purpose.
+Software design includes at least three kinds of decisions:
 
-Good design begins not with *what we can build*, but with *what problem is worth solving*.
+- Visual design covers layout, colour, and readability.
+- Interaction design covers the steps a person takes and whether those steps feel natural or frustrating.
+- Conceptual design covers the ideas and relationships that give the system its structure.
 
-## **2. Finding Problems Worth Solving**
+These decisions affect one another. A clean interface cannot rescue a confused conceptual model, and a well-factored implementation cannot make the wrong product useful. Start by asking what problem deserves attention, not what your team already knows how to build.
 
-Before we start coding, we should **observe** how people actually work and identify where current tools fall short.
+## 2. Find a problem by watching the work
 
-### **Key ideas**
+People often describe an idealized version of their work. Observation shows what actually happens. Watch the sequence of actions, the interruptions, and the tools that people improvise when the official process does not suit them.
 
-- **Observe before you prescribe.**
+Workarounds are especially informative. A spreadsheet used as a scheduling system or a paper note taped beside a monitor points to a need that the existing system has missed. Errors are informative too. They often reveal a mismatch between the user's understanding and the model imposed by the software.
 
-    Watch what people do and how they adapt.
+Do not rush to diagnose the problem while you are still observing it. Write down what happened, the circumstances, and anything that surprised you. Interpretation comes next.
 
-- **Workarounds are gold.**
+## 3. Use interviews to learn why
 
-    Improvised solutions reveal unmet needs.
+Observation tells you what someone did. An interview can help you understand why they did it.
 
-- **Pay attention to “errors.”**
+Begin with the person's role and routine. Ask for a recent, concrete example: “Can you walk me through the last time this happened?” Questions about an actual event usually produce better evidence than questions about a hypothetical feature.
 
-    Mistakes show where a user’s mental model and the system’s model diverge.
+A useful interview has room to wander. Follow an unexpected detail when it seems important, and allow a pause instead of answering your own question. Avoid yes-or-no questions and questions that suggest the answer you hope to hear. Before you finish, summarize what you think you learned and give the other person a chance to correct you.
 
-“You can observe a lot by just watching.” — Yogi Berra
+## 4. Interpret what you heard
 
-## **3. From Observation to Interviews**
+Do more than condense your notes. Look for contradictions, surprises, and points of tension. A person may say that speed matters most, for example, while repeatedly stopping to double-check risky actions. That contradiction may tell you more than either statement alone.
 
-Observation reveals *what* people do; interviews reveal *why* they do it.
+Ask yourself:
 
-### **Interview flow**
+- Which goals and values does this person appear to prioritize?
+- Where do those goals conflict with the assumptions built into the current tools?
+- Which social, technical, legal, or ethical boundaries shape the decision?
+- What evidence supports our interpretation, and what are we merely guessing?
 
-1. **Intro / Background** – Build rapport. “Tell me about what you do here.”
-2. **Evoke stories** – Ask for concrete examples. “Walk me through your day.”
-3. **Explore emotions** – What frustrates or delights?
-4. **Reflect** – Summarize and verify your understanding.
-5. **Wrap up** – Invite anything missed.
+Your answers should lead to a specific point of view about the problem and a sensible boundary for the project. They should also reveal what you still need to learn.
 
-### **Practical habits**
+## 5. Account for the people and values around the system
 
-- Use **silence**; don’t fill pauses.
-- Avoid **binary questions**.
-- Ask for **stories**, not opinions or hypotheticals.
-- Follow unexpected tangents—they often uncover deeper insights.
-- Don’t suggest answers or over-guide the conversation.
+Direct users are not the only people affected by software. [Value sensitive design](https://en.wikipedia.org/wiki/Value_sensitive_design) offers a way to examine the human values involved in a design. For this project, use it as a prompt for four lines of inquiry.
 
-## **4. Analyzing What You Hear**
+### Stakeholders
 
-After interviews, reflect rather than summarize.
+Identify the people who will use the system and the people who may experience its consequences without choosing to use it. Navigation software, for example, helps drivers find a faster route but may direct traffic through a residential neighbourhood. The residents are stakeholders even though they never opened the application.
 
-Look for **contradictions, surprises, and tensions**.
+### Time
 
-Ask:
+Consider what happens after the first use. People adapt to a tool, organizations build procedures around it, and old versions eventually become difficult to support. A design that is harmless during a small trial may behave differently after years of use.
 
-- What values or priorities are people expressing?
-- Where are their goals misaligned with the technology’s assumptions?
-- What boundaries—social, technical, or ethical—shape their decisions?
+### Scale
 
-This reflection helps define a **point of view as a designer** and the **scope** of a meaningful project.
+Ask what changes if many people adopt the system. Predictive text can save a few seconds on one message. At scale, it may also contribute to a larger volume of messages and a stronger expectation that people remain available. Small design choices can become social conventions when a system is widely used.
 
-## **5. Beyond Empathy: Designing with Values**
+### Values
 
-Empathy and need finding are only the first step. Software systems affect not just direct users but entire communities.
+Name the values at stake rather than treating them as a general desire to “do good.” Autonomy, privacy, dignity, fairness, sustainability, and community may point toward different designs. If two values conflict, state the trade-off your team is making and who will bear its cost.
 
-We must design with **values** in mind—acknowledging long-term, indirect, and systemic impacts.
+## 6. Allow for reuse and non-use
 
-This approach is called **Value Sensitive Design (VSD)**.
+People will sometimes use software in ways its designers did not anticipate. A spreadsheet may become a drawing surface; a browser may become the main environment for an entire job. Such reuse can expose useful flexibility in a design.
 
-[Value sensitive design - Wikipedia](https://en.wikipedia.org/wiki/Value_sensitive_design)
+Refusing a technology can be equally deliberate. Someone may opt out of facial recognition because the convenience is not worth the loss of privacy. Where non-use is possible, the system should not punish it through needless barriers or degraded access.
 
-## **6. Value Sensitive Design: The Four Criteria**
+## 7. Values also appear in code
 
-VSD asks designers to think about:
+The same questions arise in software construction. A class, API, or protocol determines who can use a capability, which operations are easy, and which assumptions later programmers inherit. Defaults and names also steer behaviour.
 
-### **(a) Stakeholders**
+Correctness remains essential, but it is not the only test of a design. As you work on the project, be prepared to explain whose problem your design addresses, what evidence shaped it, and which trade-offs appear in its interfaces.
 
-Who is affected—directly or indirectly?
+# Responsible design: generating ideas and checking consequences
 
-- **Direct stakeholders** interact with the system.
-- **Indirect stakeholders** are affected by its consequences.
-- **Non-targeted stakeholders** may be drawn in unintentionally.
+Once your team understands the problem, you need alternatives. The first plausible solution often looks inevitable only because nobody made time to propose a second one.
 
-**Example:** *The Waze Effect* — navigation apps reroute cars through residential neighborhoods, benefiting drivers but harming residents who were never consulted.
+## 1. Diverge, then converge
 
-### **(b) Time**
+Design usually moves back and forth between two modes:
 
-How do impacts evolve?
+| Divergent thinking | Convergent thinking |
+| --- | --- |
+| Generate alternatives | Compare and combine ideas |
+| Expand the range of possibilities | Resolve conflicts and constraints |
+| Defer feasibility judgments briefly | Test feasibility and trade-offs |
+| Aim for breadth | Aim for a coherent choice |
 
-A technology’s meaning changes as novelty fades and integration deepens. Consider **long-term adaptation, obsolescence,** and **re-appropriation**.
+Divergence gives the team material to work with. Convergence turns that material into a design you can defend and implement. Converging too early leaves promising ideas unexplored; diverging indefinitely leaves you with no decision.
 
-### **(c) Pervasiveness**
+## 2. Make room for alternatives
 
-What happens when adoption becomes widespread?
+During brainstorming, record ideas before debating them. Build on another person's suggestion, and include ideas that seem impractical if they expose a useful assumption. Quantity is helpful at this stage because the obvious ideas tend to arrive first.
 
-Design assumptions at small scale become social norms at large scale.
+Lateral-thinking prompts can loosen a stuck discussion. Ask what would happen if a familiar assumption were reversed, push a flawed idea to an absurd extreme, or examine the part of the system everyone has ignored. You can also look outside the immediate domain. Other tools, physical spaces, and improvised user practices may suggest a different way to frame the problem.
 
-Example: predictive text systems make communication faster but also increase message volume and expectations of constant responsiveness.
+None of these techniques guarantees a good answer. Their purpose is to prevent the team from mistaking habit for necessity.
 
-### **(d) Values**
+## 3. Organize features around concepts
 
-What matters most to those affected?
+As you converge, look for concepts that describe meaningful units of behaviour. A concept names an idea that makes sense to the person using the system, such as a Post, Comment, Session, or Favourite. Screen widgets and data structures are possible implementations of that idea.
 
-Values include autonomy, dignity, fairness, sustainability, and community.
+A useful concept has a clear purpose, a meaning that can be explained without referring to its implementation, and boundaries that let it change without disturbing unrelated parts of the system. Thinking in concepts helps turn a loose feature list into a model that the team can discuss.
 
-Design decisions amplify some and suppress others. We must identify the trade-offs we are willing to make.
+## 4. Keep concepts as independent as the design permits
 
-## **7. Re-appropriation and Non-Use**
+Concepts will interact, but one should not silently drag in another. Suppose a `Post` implementation always contains `Comment` objects. Any application that wants posts must now accept comments as well. That is an intrinsic dependency built into the component.
 
-Users often repurpose systems beyond their original design—turning spreadsheets into art or browsers into operating environments. This **re-appropriation** shows flexibility and creativity.
+If commenting is optional in the product, make the relationship explicit outside the two concepts. A dependency diagram can help the team see which relationships are necessary and which are accidental. This is one application of David Parnas's information-hiding principle: hide decisions that other modules do not need to know.
 
-Equally important is **choosing not to use** technology.
+## 5. Use values while generating and selecting ideas
 
-Non-use (for example, opting out of facial recognition) is a deliberate design response that must be supported rather than punished.
+Values can open new directions during divergence. Asking how a design would work for a child, a non-user, or someone with limited connectivity may produce alternatives the team had not considered.
 
-## **8. Software Is Not Neutral**
+During convergence, those same values become criteria. Which proposal protects autonomy? Which one excludes people? What information does each proposal collect, and is that information necessary? Treat the answers as design evidence, alongside cost and technical feasibility.
 
-Every line of code reflects priorities.
+## 6. Check intended and unintended consequences
 
-Default settings, optimization criteria, and even naming choices encode a worldview.
+Responsible innovation requires attention to both benefits and harms. For each serious proposal, ask who benefits if it works, who could be harmed even when it works as intended, and how it might be misused. Then ask what changes when the system fails.
 
-When software scales, those values scale with it—and eventually shape user behavior and social norms.
+You will not foresee every outcome. The point is to notice plausible consequences early enough to change the design.
 
-Designing responsibly means asking:
+## 7. Do this work before implementation makes it expensive
 
-- *Who benefits?*
-- *Who bears the cost?*
-- *Which values are we embedding?*
+Ethical risks discovered late can force a redesign, invalidate collected data, or expose people to harm. They can also damage the trust on which a product depends. A small team cannot study every possible consequence, but its size is not a reason to ignore the most credible ones.
 
-## **9. Why This Matters in CPEN 221**
+Document the risks you considered, the evidence available, and any uncertainty that remains. This record will make later decisions easier to revisit.
 
-In this course, software design is not abstract—it shapes how we write code and how others build on it.
+## 8. Borrow methods from responsible-technology practice
 
-When you design a **class**, **API**, or **protocol**, you are:
+Several established methods can provide prompts when your team is unsure where to begin:
 
-- Defining **who can use it** and **how**.
-- Deciding **what’s easy** and **what’s hard**.
-- Encoding **assumptions and priorities** that persist over time.
+- Ethical OS uses scenarios to surface possible misuse and unintended effects.
+- Consequence Scanning asks a team to map the direct and indirect effects of a product decision.
+- Society-Centered Design broadens the design brief beyond an individual user to communities and institutions.
+- B Corp assessments and responsible-innovation labs offer examples of organizational accountability.
 
-As engineers, we must design for clarity, sustainability, and fairness—not just correctness.
+The work of Safiya Noble, Ruha Benjamin, Joy Buolamwini, Rumman Chowdhury, and Kathy Pham offers concrete studies of how technical systems interact with power, discrimination, and public institutions. Consult the work itself rather than treating the names as a checklist.
 
-### **Summary Thought**
+## 9. Frame the intended social impact
 
-Software systems don’t just reflect society—they reshape it.
+Some projects address problems involving dignity, agency, inclusion, or justice. These problems are often entangled with policy, institutions, and behaviour, so software alone will not settle them.
 
-The engineer’s task is not only to make systems **functionally correct**, but to make them **socially and ethically coherent**.
+The following heuristic can help compare possible areas of impact:
 
+> Social impact ≈ importance of the service × vulnerability of the affected population × scale of the effect
 
-# Designing Responsibly: From Divergence to Social Impact
+Treat this as a reminder to examine all three factors, not as a calculation or proof that one project is more worthy than another. A service may be important but reach few people; a widely used system may have only a small effect on each person; a vulnerable population may face constraints the team does not yet understand.
 
-## **1. Two Modes of Design Thinking: Diverge and Converge**
+Treat claims about impact as hypotheses. Test them through stakeholder research and revise them when the evidence changes.
 
-Design is both **creative exploration** and **structured reasoning**.
+## 10. Write an impact case
 
-In engineering practice, we move repeatedly between **divergent** and **convergent** modes.
+An impact case states the reasoning behind a proposal in a form that others can question:
 
-| **Divergent Thinking**            | **Convergent Thinking**                 |
-| --------------------------------- | --------------------------------------- |
-| Generate ideas freely             | Synthesize and unify ideas              |
-| Expand the space of possibilities | Reduce complexity and resolve conflicts |
-| Ignore barriers                   | Identify trade-offs and constraints     |
-| Goal: breadth and discovery       | Goal: coherence and clarity             |
+1. The problem of *X* matters because _____.
+2. We propose *Y* as a response.
+3. We believe *Y* could address *X* because _____.
+4. We will examine *N* to learn whether that belief is supported.
 
-We start by generating many ideas, even implausible ones, and then narrow toward designs that are coherent, viable, and aligned with real needs .
+Choose a measure that speaks to the problem, not merely to activity. Downloads, page views, or time spent may be easy to count without showing that anyone's situation improved.
 
----
+## 11. Map the surrounding system
 
-## **2. Techniques for Divergent Design**
+A stakeholder map can reveal relationships that a user-centred view misses. Begin with roughly five groups connected to the problem. These might include users, non-users, community organizations, service providers, regulators, or funders. Name a few actual organizations or roles within each group.
 
-Divergent design involves deliberately breaking habitual patterns.
+For each group, ask what it wants, what influence it holds, what constraints it faces, and what it may fail to see. Then look across the map. Where are goals aligned? Where are they in conflict? Which structural gap could your team realistically address?
 
-### **Brainstorming**
+The map will be incomplete. Its value lies in making the team's current understanding visible and open to correction.
 
-- Work collaboratively and build on others’ suggestions (“yes, and…”).
-- Aim for *quantity* before *quality*.
-- Include wild or “bad” ideas—sometimes they spark the best solutions.
+## 12. Carry the reasoning into the project
 
-### **Lateral Thinking**
+Keep a record of alternatives, not just the winning idea. State the values and evidence used to choose among them. Finally, identify a consequence that would cause your team to revise or abandon the design. These notes will make the later requirements, architecture, and reflection stages much more concrete.
 
-- Challenge assumptions (“What if the opposite were true?”).
-- Take a flawed idea and push it to extremes.
-- Examine neglected parts of a system.
+# Software requirements
 
-### **Foraging for Inspiration**
+Once you have a problem and a proposed solution, you will probably want to start coding. A prototype can be the quickest way to learn whether an idea is feasible, particularly when it is cheap to build and safe to discard. Early consumer products often develop this way. The [history of Facebook](https://en.wikipedia.org/wiki/History_of_Facebook), for example, shows a rough initial product changing as its audience grew.
 
-- Browse books, online forums, and physical spaces.
-- Pay attention to unusual artifacts, errors, or user improvisations.
+That approach has limits. A prototype may be expensive to deploy, a client may need an agreed definition of success, or a failure may put people's health or safety at risk. The troubled launch of [HealthCare.gov](https://en.wikipedia.org/wiki/HealthCare.gov) is a familiar example of a public service whose early technical failures had immediate consequences for its users.
 
-A design problem often hides in what people are already *hacking around*.
+Requirements make the conditions for acceptance explicit. A requirement is a statement that must be true for the system to be considered acceptable. For a mobile game, one requirement might be:
 
----
+> During play, the frame rate must not fall below 60 frames per second on any supported device.
 
-## **3. From Features to Concepts**
+The number is not automatically a good requirement. The team still needs a reason for choosing it and a practical way to verify it. Once written, however, it gives implementation and testing a shared target.
 
-After brainstorming, we **converge** on higher-level **concepts**—abstract building blocks that encapsulate purpose and behavior.
+## Why write requirements down?
 
-### **What Is a Concept?**
+Software is built incrementally, so it is fair to ask why a team should specify requirements before it knows every detail. Written requirements help the team decide what to build, plan tests, estimate work, and recognize when a release is ready. They also expose disagreements that otherwise appear late in implementation.
 
-A *concept* is not a UI element or data structure; it’s a **semantically meaningful unit** of functionality.
+Mockups and prototypes express some requirements implicitly. They may show the steps in a task or the intended layout. They say little about properties that are hard to see. A mockup cannot tell you that the average page-load time must remain below one second, for example. An explicit statement can.
 
-A good concept is:
+Requirements originate with people, organizations, laws, contracts, physical constraints, and earlier design decisions. A team may need to interview users, interpret policy with a lawyer, negotiate with a client, or test a prototype before it can state a requirement responsibly. Requirements engineering extends design work by identifying the properties the finished system must satisfy and the sources that justify them.
 
-- **Purposive** — fulfills a user need.
-- **Semantic** — user-facing, not an implementation detail.
-- **Modular** — independent and reusable.
+## Formality and its trade-offs
 
-Examples: Post, Comment, Upvote, Favorite, User, Session.
+Some projects specify requirements formally. Formal methods can reveal contradictions or link a high-level requirement to the code and tests that implement it. That traceability is useful in systems where failure is costly.
 
-Each expresses *what* is accomplished, not *how* it’s coded .
+Precision also takes time, and premature formalization can narrow a design before the team understands the problem. For this project, natural-language requirements are appropriate, but they still need careful review.
 
-By converging on concepts, we move from scattered features to a **coherent model of the system**.
+Aim for requirements that are:
 
----
+- complete enough to cover the behaviour and constraints that matter;
+- precise enough that two readers do not arrive at incompatible interpretations;
+- consistent with one another; and
+- verifiable through a test, inspection, analysis, or demonstration.
 
-## **4. Dependency Diagrams and Independence**
+Here, “complete” means that the set contains what the team needs to judge whether the product meets its stated goals. It need not describe every implementation detail.
 
-Concepts interact, but they should remain as **independent** as possible.
+## Example: a to-do list
 
-Dependencies should be *extrinsic* (arising from context) rather than *intrinsic* (hard-coded inside components).
+Consider these initial requirements for a small to-do list application:
 
-### **Example**
+- A user must be able to add a to-do item with one action.
+- Each item must contain text and a completed state.
+- A user must be able to edit an item's text.
+- A user must be able to change an item's completed state.
+- A user must be able to delete an item.
+- Changes to an item must be saved without a separate save action.
 
-If Post internally references Comment, any app using Post must also include Comment.
+The list is a useful start, but it needs scrutiny.
 
-That’s an **intrinsic dependency**—it reduces reusability.
+### Completeness
 
-The goal is to define concepts that can stand alone, with dependencies made explicit in **dependency diagrams** that describe inclusion relationships rather than hidden couplings.
+Is the list ordered? How long should items persist? Are there user accounts? Where is the data stored? Can a deletion be undone? The relevant questions depend on the product, but the team must look for omissions that would change its estimate or its definition of success.
 
-This approach traces back to **David Parnas’s** principle of *information hiding*—a timeless idea in software design.
+### Precision
 
----
+Where does a new item appear? How long may its text be? What exactly counts as one action? If the team leaves those questions open, programmers and testers may make different, equally plausible assumptions.
 
-## **5. Integrating Values into Divergence and Convergence**
+### Consistency
 
-Values—accessibility, privacy, dignity, community—aren’t afterthoughts.
+The six statements appear compatible, but new details may create a conflict. Suppose a new item is always added at the end of a long list, but the view does not scroll to it. Technically, one action added the item. From the user's perspective, nothing happened. The team must decide what “able to add” means and revise the related requirements together.
 
-During divergence, they inspire *new directions* (“What would this look like if we designed for children or non-users?”).
+### Verifiability
 
-During convergence, they *constrain and guide* the final structure (“How do we preserve autonomy and fairness?”).
+The automatic-save requirement is difficult to guarantee under every failure. A full disk, lost connection, or hardware fault can prevent a save. A more useful requirement would state the conditions under which saving must succeed and what the application must tell the user when it cannot.
 
-Good design balances creativity with conscience.
+These weaknesses do not make the first draft useless. They show where the team needs another decision. Better requirements reduce ambiguity, make risks visible, and give implementation and testing a common checklist.
 
----
+## Requirements must also be defensible
 
-## **6. Responsible Innovation: Doing No Harm, Creating Good**
+Completeness, precision, consistency, and verifiability are not enough. A requirement can satisfy all four and still be illegal, unethical, or unjust.
 
-Technology shapes society. As engineers, we have **agency** in how that happens.
+Historic redlining in the United States illustrates the danger. A lending system could encode a precise, easily tested rule that denies applicants from a particular racial group. Its technical clarity would not make the rule acceptable. Automating discrimination can instead conceal it behind an apparently neutral process and apply it at greater scale.
 
-**Responsible innovation** combines two commitments:
-
-1. **Do no harm** — avoid enabling bias, exploitation, inequity, or environmental harm.
-2. **Create positive impact** — advance human rights, fairness, and sustainability .
-
-We must question both the *intended* and *unintended* consequences of what we build.
-
-“I lay awake at night thinking about what we could have done to avoid the product being used this way.”
-
-— Early Facebook engineer
-
-Being a responsible technologist means anticipating ripple effects and designing systems that protect—not erode—public trust.
-
----
-
-## **7. The Case for Responsible Tech**
-
-Responsible innovation isn’t only ethical—it’s pragmatic.
-
-### **Why It Matters**
-
-- **Attracts talent.** Engineers increasingly want to work for organizations that align with their values.
-- **Builds loyalty.** Users trust companies that are transparent and socially aware.
-- **Prevents disasters.** Addressing ethical risks early saves reputations and resources .
-
-### **Common Excuses to Challenge**
-
-- “We’re too small to worry about that.”
-- “We don’t have enough data to know.”
-- “This doesn’t apply to us.”
-
-Responsible design is not a luxury—it’s a discipline.
-
----
-
-## **8. Frameworks and Role Models**
-
-Practical frameworks help you incorporate social and ethical reflection:
-
-- **Ethical OS** – scenario planning for unintended consequences.
-- **Consequence Scanning** – mapping second-order effects.
-- **Society-Centered Design** – designing for collective well-being.
-- **B Corp / Responsible Innovation Labs** – institutional accountability.
-
-Scholars and practitioners to follow: Safiya Noble, Ruha Benjamin, Joy Buolamwini, Rumman Chowdhury, Kathy Pham, and others who connect technology to justice and inclusion .
-
----
-
-## **9. Social Innovation: Framing Meaningful Problems**
-
-Engineering for impact means tackling **meaningful, not just technical, problems**.
-
-Social innovation addresses issues that limit **dignity, agency, inclusivity, and justice** .
-
-### **The Social Impact Equation**
-
-Social Impact ≈ ( Essentialness of Service ) × ( Vulnerability of Target Population ) × ( Scale of Effect )
-
-Problems in this space are **wicked problems**—complex, interconnected, and resistant to simple solutions.
-
-They often exist in **complex systems**, where variables are numerous and interactions unpredictable.
-
-Our tools must therefore evolve: iterative learning, stakeholder research, and humility.
-
----
-
-## **10. The Impact Case Framework**
-
-To ground social design in evidence, use an **Impact Case**—a concise, testable articulation of your logic.
-
-### **Template**
-
-1. The problem of *X* is important because _____.
-2. Our solution to address this problem is *Y*.
-3. We believe *Y* is a good solution because _____.
-4. We will measure *N* to prove that *Y* effectively addresses *X*.
-
-The Impact Case forces you to align purpose, evidence, and measurement.
-
-It’s as relevant to software tools as to social ventures—because all systems have impact.
-
----
-
-## **11. Mapping Your Ecosystem**
-
-To understand a problem, map its **stakeholders** and **structures**.
-
-Steps:
-
-1. Identify ≈ 5 stakeholder groups (users, communities, policymakers, etc.).
-2. Choose 2–3 notable actors in each group.
-3. Ask: What are their motivations, strengths, blind spots, and needs?
-4. Analyze: What does this space need? What are structural gaps? Where can you add value?
-
-This exercise connects need finding, systems thinking, and ethical reflection—core habits for responsible software engineers.
-
----
-
-## **12. Takeaways**
-
-- **Diverge boldly**, **converge thoughtfully**.
-- **Ground your designs in values**—they shape not only code but culture.
-- **Use frameworks like Impact Case and ecosystem mapping** to test your assumptions.
-- **Remember:** good intentions aren’t enough; good processes are.
-
-*Solve important problems.*
-
-*Good intentions aren’t enough.*
-
-*Impact requires evidence and empathy.*
-
-
-# Software Requirements
-
-Once you have a problem, a solution, and a design specification, it's entirely reasonable to start thinking about code. What libraries should we use? What platform is best? Who will build what? After all, there's no better way to test the feasibility of an idea than to build it, deploy it, and find out if it works. Right?
-
-It depends. This mentality towards product design works fine if building and deploying something is cheap and getting feedback has no consequences. Simple consumer applications often benefit from this simplicity, especially early stage ones, because there's little to lose. For example, if you are starting a company, and do not even know if there is a market opportuniity yet, it may be worth quickly prototyping an idea, seeing if there's interest, and then later thinking about how to carefully architect a product that meets that opportunity. This is [how products such as Facebook started](https://en.wikipedia.org/wiki/History_of_Facebook), with a poorly implemented prototype that revealed an opportunity, which was only later translated into a functional, reliable software service.
-
-However, what if prototyping a beta *isn't* cheap to build? What if your product only has one shot at adoption? What if you're building something for a client and they want to define success? Worse yet, what if your product could *kill* people if it's not built properly? Consider the U.S. [HealthCare.gov](http://HealthCare.gov) [launch](https://en.wikipedia.org/wiki/HealthCare.gov), for example, which was lambasted for its countless defects and poor scalability at launch, only working for 1,100 simultaneous users, when 50,000 were exected and 250,000 actually arrived. To prevent disastrous launches like this, software teams have to be more careful about translating a design specification into a specific explicit set of goals that must be satisfied in order for the implementation to be complete. We call these goals *requirements* and we call this process of *requirements engineering*.
-
-In principle, requirements are a relatively simple concept. They are simply statements of what must be true about a system to make the system acceptable. For example, suppose you were designing an interactive mobile game. You might want to write the requirement *The frame rate must never drop below 60 frames per second.* This could be important for any number of reasons: the game may rely on interactive speeds, your company's reputation may be for high fidelity graphics, or perhaps that high frame rate is key to creating a sense of realism. Or, imagine your game company has a reputation for high performance, high fidelity graphics, high frame rate graphics, and achieving any less would erode your company's brand. Whatever the reasons, expressing it as a requirement makes it explicit that any version of the software that doesn't meet that requirement is unacceptable, and sets a clear goal for engineering to meet.
-
-The general idea of writing down requirements is actually a controversial one. Why not just discover what a system needs to do incrementally, through testing, user feedback, and other methods? Some of the original arguments for writing down requirements actually acknowledged that software is necessarily built incrementally, but that it is nevertheless useful to write down requirements from the outset. This is because requirements help you plan everything: what you have to build, what you have to test, and how to know when you're done. The theory is that by defining requirements explicitly, you plan, and by planning, you save time.
-
-Do you really have to plan by *writing down* requirements? For example, why not do what designers do, expressing requirements in the form of prototypes and mockups. These *implicitly* state requirements, because they suggest what the software is supposed to do without saying it directly. But for some types of requirements, they actually imply nothing. For example, how responsive should a web page be to be? A prototype doesn't really say; an explicit requirement of *an average page load time of less than 1 second* is quite explicit. Requirements can therefore be thought of more like an architect's blueprint: they provide explicit definitions and scaffolding of project success.
-
-And yet, like design, requirements come from the world and the people in it and not from software. Because they come from the world, requirements are rarely objective or unambiguous. For example, some requirements come from law, such as the European Union's [General Data Protection Regulation](https://eugdpr.org/) regulation, which specifies a set of data privacy requirements that all software systems used by EU citizens must meet. Other requirements might come from public pressure for change, as in Twitter's decision to label particular tweets as having false information or hate speech. Therefore, the methods that people use to do requirements engineering are quite diverse. Requirements engineers may work with lawyers to interpret policy. They might work with regulators to negotiate requirements. They might also use design methods, such as user research methods and rapid prototyping to iteratively converge toward requirements. Therefore, the big difference between design and requirements engineering is that requirements engineers take the process one step further than designers, enumerating *in detail* every property that the software must satisfy, and engaging with every source of requirements a system might need to meet, not just user needs.
-
-There are some approaches to specifying requirements *formally*. These techniques allow requirements engineers to automatically identify *conflicting* requirements, so they don't end up proposing a design that can't possibly exist. Some even use systems to make requirements *traceable*, meaning the high level requirement can be linked directly to the code that meets that requirement. All of this formality has tradeoffs: not only does it take more time to be so precise, but it can negatively effect creativity in concept generation as well.
-
-Expressing requirements in natural language can mitigate these effects, at the expense of precision. They just have to be *complete*, *precise*, *non-conflicting*, and *verifiable*. For example, consider a design for a simple to do list application. Its requirements might be something like the following:
-
-- Users must be able to add to-do list items with a single action.
-- To-do list items must contain text and a binary completed state.
-- Users must be able to edit the text of to-do list items.
-- Users must be able to toggle the completed state of to-do list items.
-- Users must be able to delete to-do list items.
-- All changes made to the state of to-do list items must be saved automatically without user intervention.
-
-Let's review these requirements against the criteria for good requirements that I listed above:
-
-- Is it *complete*? I can think of a few more requirements: is the list ordered? How long does state persist? Are there user accounts? Where is data stored? What does it look like? What kinds of user actions must be supported? Is delete undoable? Even just on these completeness dimension, you can see how even a very simple application can become quite complex. When you're generating requirements, your job is to make sure you haven't forgotten important requirements.
-- Is the list *precise*? Not really. When you add a to do list item, is it added at the beginning? The end? Wherever a user request it be added? How long can the to do list item text be? Clearly the requirement above is imprecise. And imprecise requirements lead to imprecise goals, which means that engineers might not meet them. Is this to do list team okay with not meeting its goals?
-- Are the requirements *non-conflicting*? I *think* they are since they all seem to be satisfiable together. But some of the missing requirements might conflict. For example, suppose we clarified the imprecise requirement about where a to do list item is added. If the requirement was that it was added to the end, is there also a requirement that the window scroll to make the newly added to do item visible? If not, would the first requirement of making it possible for users to add an item with a single action be achieveable? They could add it, but they wouldn't know they had added it because of this usability problem, so is this requirement met? This example shows that reasoning through requirements is ultimately about interpreting words, finding source of ambiguity, and trying to eliminate them with more words.
-- Finally, are they *verifiable*? Some more than others. For example, is there a way to guarantee that the state saves successfully all the time? That may be difficult to prove given the vast number of ways the operating environment might prevent saving, such as a failing hard drive or an interrupted internet connection. This requirement might need to be revised to allow for failures to save, which itself might have implications for other requirements in the list.
-
-Now, the flaws above don't make the requirements "wrong". They just make them "less good." The more complete, precise, non-conflicting, and testable your requirements are, the easier it is to anticipate risk, estimate work, and evaluate progress, since requirements essentially give you a to do list for implementation and testing.
-
-Lastly, remember that requirements are translated from a design, and designs have many more qualities than just completeness, preciseness, feasibility, and verifiability. Designs must also be legal, ethical, and just. Consider, for example, the anti-Black redlining practices pervasive throughout the United States. Even through the 1980's, it was standard practice for banks to lend to lower-income white residents, but not Black residents, even middle-income or upper-income ones. Banks in the 1980's wrote software to automate many lending decisions; would a software requirement such as this have been legal, ethical, or just?
-
-No loan application with an applicant self-identified as a person of color should be approved.
-
-That requirement is both precise and verifiable. In the 1980s, it was legal. But was it ethical or just? Absolutely not. Therefore, requirements, no matter how formally extracted from a design specification, no matter how consistent with law, and no matter how aligned with an organization's priorities, should be free of racist ideas. Requirements are just one of many ways that such ideas are manifested, and ultimately hidden in code.
+When reviewing your requirements, ask where each one came from, who benefits from it, and who could be harmed by it. If a requirement encodes an unjust assumption, making it more precise is not the solution. Remove or replace the assumption.
 
 ---
