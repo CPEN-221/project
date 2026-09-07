@@ -1,9 +1,10 @@
 # CPEN 221 Fall 2026 team project
 
 This directory is a self-contained Jekyll site for the CPEN 221A team project.
-The published guide is in `index.md`; the imported description is retained in
-`source/project-description.md`. Run `python3 scripts/import_project.py` after
-updating the imported description.
+The published guide is in `index.md`, and its supporting notes are in `notes.md`.
+The imported description is retained in `source/project-description.md`. Run
+`python3 scripts/import_project.py` after updating the imported description; the
+script regenerates both published pages.
 
 The site shares the course syllabus's institutional visual system and self-hosted
 IBM Plex Sans and IBM Plex Mono fonts.

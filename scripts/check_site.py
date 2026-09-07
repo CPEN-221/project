@@ -9,11 +9,12 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-from import_project import SOURCE, render
+from import_project import SOURCE, render, render_notes
 
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.md"
+NOTES = ROOT / "notes.md"
 BUILD = ROOT / "_site"
 ORIGINAL = ROOT.parent / "CPEN 221A - Team Project" / "CPEN 221A - Team Project.md"
 
@@ -21,6 +22,7 @@ REQUIRED_FILES = (
     "_config.yml",
     "_layouts/default.html",
     "index.md",
+    "notes.md",
     "404.html",
     "assets/css/main.scss",
     "assets/js/site.js",
@@ -32,7 +34,7 @@ REQUIRED_FILES = (
     "assets/images/project-notes.jpeg",
 )
 
-REQUIRED_SECTIONS = (
+REQUIRED_GUIDE_SECTIONS = (
     "overview",
     "design-your-team",
     "design-your-solution",
@@ -43,7 +45,12 @@ REQUIRED_SECTIONS = (
     "evaluate-and-triage",
     "reflect",
     "milestones",
-    "notes",
+)
+
+REQUIRED_NOTE_SECTIONS = (
+    "software-design-from-observation-to-values",
+    "designing-responsibly-from-divergence-to-social-impact",
+    "software-requirements",
 )
 
 REQUIRED_IMAGES = (
@@ -146,8 +153,11 @@ def check_source(errors: list[str]) -> None:
 
     source_text = SOURCE.read_text(encoding="utf-8")
     index_text = INDEX.read_text(encoding="utf-8") if INDEX.exists() else ""
+    notes_text = NOTES.read_text(encoding="utf-8") if NOTES.exists() else ""
     if index_text != render(source_text):
         fail(errors, "index.md is stale; run python3 scripts/import_project.py")
+    if notes_text != render_notes(source_text):
+        fail(errors, "notes.md is stale; run python3 scripts/import_project.py")
 
     if ORIGINAL.exists() and SOURCE.read_bytes() != ORIGINAL.read_bytes():
         fail(errors, "source/project-description.md differs from the imported handout")
@@ -163,14 +173,24 @@ def check_source(errors: list[str]) -> None:
         "# Evaluate and Triage",
         "# Reflect",
         "# Milestones",
-        "# Notes",
     ):
         if heading not in index_text:
             fail(errors, f"missing project section: {heading}")
 
+    for heading in (
+        "# Software Design: From Observation to Values",
+        "# Designing Responsibly: From Divergence to Social Impact",
+        "# Software Requirements",
+    ):
+        if heading not in notes_text:
+            fail(errors, f"missing project-notes section: {heading}")
+
+    if "# Notes" in index_text:
+        fail(errors, "project notes must not be embedded in index.md")
+
     for stale in ("craftdocs://", "CPEN%20221A%20-%20Team%20Project.assets"):
-        if stale in index_text:
-            fail(errors, f"stale exported reference remains in index.md: {stale}")
+        if stale in index_text or stale in notes_text:
+            fail(errors, f"stale exported reference remains in published Markdown: {stale}")
 
     for stale in (
         "Project at a glance",
@@ -191,11 +211,12 @@ def check_source(errors: list[str]) -> None:
     elif sum(int(points) for _, points in milestone_rows) != 25:
         fail(errors, "milestone points must total 25")
 
+    published_text = index_text + notes_text
     for image in REQUIRED_IMAGES:
-        if index_text.count(image) != 1:
-            fail(errors, f"expected one reference to {image} in index.md")
+        if published_text.count(image) != 1:
+            fail(errors, f"expected one published reference to {image}")
 
-    image_tags = re.findall(r"<img\b[^>]*>", index_text)
+    image_tags = re.findall(r"<img\b[^>]*>", published_text)
     if len(image_tags) != len(REQUIRED_IMAGES):
         fail(errors, f"expected {len(REQUIRED_IMAGES)} image tags in index.md")
     for tag in image_tags:
@@ -237,11 +258,33 @@ def check_build(errors: list[str]) -> None:
     missing_landmarks = {"header", "nav", "main", "footer"} - home_parser.landmarks
     if missing_landmarks:
         fail(errors, f"home page is missing landmarks: {', '.join(sorted(missing_landmarks))}")
-    missing_sections = set(REQUIRED_SECTIONS) - home_parser.ids
+    missing_sections = set(REQUIRED_GUIDE_SECTIONS) - home_parser.ids
     if missing_sections:
         fail(errors, f"home page is missing section ids: {', '.join(sorted(missing_sections))}")
     if "Team project" not in "".join(home_parser.title_parts):
         fail(errors, "built home page title is incorrect")
+    if "notes" in home_parser.ids:
+        fail(errors, "built home page still contains the project notes")
+
+    notes_page = (BUILD / "notes" / "index.html").resolve()
+    if notes_page not in parsed_pages:
+        fail(errors, "built project-notes page is missing")
+    else:
+        notes_parser = parsed_pages[notes_page]
+        missing_note_landmarks = {"header", "nav", "main", "footer"} - notes_parser.landmarks
+        if missing_note_landmarks:
+            fail(
+                errors,
+                f"project-notes page is missing landmarks: {', '.join(sorted(missing_note_landmarks))}",
+            )
+        missing_note_sections = set(REQUIRED_NOTE_SECTIONS) - notes_parser.ids
+        if missing_note_sections:
+            fail(
+                errors,
+                f"project-notes page is missing section ids: {', '.join(sorted(missing_note_sections))}",
+            )
+        if "Project notes" not in "".join(notes_parser.title_parts):
+            fail(errors, "built project-notes page title is incorrect")
 
     for page, parser in parsed_pages.items():
         for image in parser.images_without_alt:

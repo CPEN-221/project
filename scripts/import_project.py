@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Convert the archived project handout into the published Jekyll page.
+"""Convert the archived project handout into the published Jekyll pages.
 
 The archived Markdown is kept unchanged in ``source/``.  This importer fixes
 formatting introduced by the document export, rewrites internal links, and
-adds accessible local figures.  Run it whenever the archived copy changes.
+adds accessible local figures. Run it whenever the archived copy changes.
 """
 
 from __future__ import annotations
@@ -14,14 +14,27 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "source" / "project-description.md"
-OUTPUT = ROOT / "index.md"
+GUIDE_OUTPUT = ROOT / "index.md"
+NOTES_OUTPUT = ROOT / "notes.md"
 
-FRONT_MATTER = """---
+GUIDE_FRONT_MATTER = """---
 layout: default
 title: Team project
-description: Project stages, submission milestones, and supporting design notes for CPEN 221A.
+description: Project stages and submission milestones for CPEN 221A.
+hero_title: Team Project
 term: Fall 2026
 permalink: /
+---
+
+"""
+
+NOTES_FRONT_MATTER = """---
+layout: default
+title: Project notes
+description: Supporting software design and requirements notes for the CPEN 221A team project.
+hero_title: Project Notes
+term: Fall 2026
+permalink: /notes/
 ---
 
 """
@@ -108,8 +121,8 @@ def _rewrite_craft_link(match: re.Match[str]) -> str:
     return f"[{label}](#{anchor})"
 
 
-def render(source: str) -> str:
-    """Return publishable Markdown generated from the archived handout."""
+def _render_body(source: str) -> str:
+    """Return normalized body Markdown generated from the archived handout."""
     lines = source.splitlines()
 
     if lines and lines[0].strip() == "# CPEN 221A - Team Project":
@@ -169,12 +182,35 @@ def render(source: str) -> str:
     body = re.sub(r"\n:\n", "\n", body)
     body = re.sub(r"\n{4,}", "\n\n\n", body)
 
-    return FRONT_MATTER + body + "\n"
+    return body
+
+
+def _split_pages(body: str) -> tuple[str, str]:
+    marker = "\n\n---\n\n# Notes\n"
+    if body.count(marker) != 1:
+        raise ValueError("Could not separate the project notes from the guide")
+    guide, notes = body.split(marker, 1)
+    return guide.rstrip(), notes.strip()
+
+
+def render(source: str) -> str:
+    """Return the publishable project-guide Markdown."""
+    guide, _ = _split_pages(_render_body(source))
+    return GUIDE_FRONT_MATTER + guide + "\n"
+
+
+def render_notes(source: str) -> str:
+    """Return the publishable project-notes Markdown."""
+    _, notes = _split_pages(_render_body(source))
+    return NOTES_FRONT_MATTER + notes + "\n"
 
 
 def main() -> None:
-    OUTPUT.write_text(render(SOURCE.read_text(encoding="utf-8")), encoding="utf-8")
-    print(f"Generated {OUTPUT.relative_to(ROOT)} from {SOURCE.relative_to(ROOT)}")
+    source = SOURCE.read_text(encoding="utf-8")
+    GUIDE_OUTPUT.write_text(render(source), encoding="utf-8")
+    NOTES_OUTPUT.write_text(render_notes(source), encoding="utf-8")
+    outputs = f"{GUIDE_OUTPUT.relative_to(ROOT)} and {NOTES_OUTPUT.relative_to(ROOT)}"
+    print(f"Generated {outputs} from {SOURCE.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@
     <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ asset_version }}" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#project-content">Skip to project guide</a>
+    <a class="skip-link" href="#project-content">Skip to page content</a>
     <div class="reading-progress" aria-hidden="true"><span></span></div>
 
     <header class="site-header" id="top">
@@ -21,8 +21,9 @@
         </a>
         <p>Electrical and Computer Engineering</p>
         <nav class="header-nav" aria-label="Primary navigation">
-          <a href="{{ '/#overview' | relative_url }}">Project guide</a>
+          <a href="{{ '/' | relative_url }}">Project guide</a>
           <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
+          <a href="{{ '/notes/' | relative_url }}">Project notes</a>
           <a href="https://cpen-221.github.io/fall2026/">Course syllabus</a>
         </nav>
       </div>
@@ -32,45 +33,67 @@
       <div class="hero-inner">
         <div class="hero-copy">
           <p class="eyebrow">CPEN 221A · Team project</p>
-          <h1 id="page-title">Team Project</h1>
+          <h1 id="page-title">{{ page.hero_title | default: 'Team Project' }}</h1>
         </div>
         <p class="term-badge">{{ page.term | default: 'Fall 2026' }}</p>
       </div>
     </section>
 
-    <details class="mobile-toc">
-      <summary>Jump to a project stage</summary>
-      <nav aria-label="Mobile project sections">
-        <a href="{{ '/#overview' | relative_url }}">Overview</a>
-        <a href="{{ '/#design-your-team' | relative_url }}">Team</a>
-        <a href="{{ '/#design-your-solution' | relative_url }}">Solution</a>
-        <a href="{{ '/#requirements' | relative_url }}">Requirements</a>
-        <a href="{{ '/#architecture' | relative_url }}">Architecture</a>
-        <a href="{{ '/#plan' | relative_url }}">Plan</a>
-        <a href="{{ '/#release' | relative_url }}">Release</a>
-        <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate</a>
-        <a href="{{ '/#reflect' | relative_url }}">Reflect</a>
-        <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
-        <a href="{{ '/#notes' | relative_url }}">Notes</a>
-      </nav>
-    </details>
-
-    <div class="page-shell">
-      <aside class="section-rail">
-        <nav aria-label="Project sections">
-          <p class="rail-label">Project stages</p>
+    {% if page.url == '/notes/' %}
+      <details class="mobile-toc">
+        <summary>Jump to a notes section</summary>
+        <nav aria-label="Mobile project-note sections">
+          <a href="{{ '/' | relative_url }}">Project guide</a>
+          <a href="#software-design-from-observation-to-values">Software design</a>
+          <a href="#designing-responsibly-from-divergence-to-social-impact">Responsible design</a>
+          <a href="#software-requirements">Software requirements</a>
+        </nav>
+      </details>
+    {% else %}
+      <details class="mobile-toc">
+        <summary>Jump to a project stage</summary>
+        <nav aria-label="Mobile project sections">
           <a href="{{ '/#overview' | relative_url }}">Overview</a>
-          <a href="{{ '/#design-your-team' | relative_url }}">Design your team</a>
-          <a href="{{ '/#design-your-solution' | relative_url }}">Design your solution</a>
+          <a href="{{ '/#design-your-team' | relative_url }}">Team</a>
+          <a href="{{ '/#design-your-solution' | relative_url }}">Solution</a>
           <a href="{{ '/#requirements' | relative_url }}">Requirements</a>
           <a href="{{ '/#architecture' | relative_url }}">Architecture</a>
           <a href="{{ '/#plan' | relative_url }}">Plan</a>
           <a href="{{ '/#release' | relative_url }}">Release</a>
-          <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate and triage</a>
+          <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate</a>
           <a href="{{ '/#reflect' | relative_url }}">Reflect</a>
           <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
-          <a href="{{ '/#notes' | relative_url }}">Notes</a>
+          <a href="{{ '/notes/' | relative_url }}">Project notes</a>
         </nav>
+      </details>
+    {% endif %}
+
+    <div class="page-shell">
+      <aside class="section-rail">
+        {% if page.url == '/notes/' %}
+          <nav aria-label="Project-note sections">
+            <p class="rail-label">Project notes</p>
+            <a href="{{ '/' | relative_url }}">← Project guide</a>
+            <a href="#software-design-from-observation-to-values">Software design</a>
+            <a href="#designing-responsibly-from-divergence-to-social-impact">Responsible design</a>
+            <a href="#software-requirements">Software requirements</a>
+          </nav>
+        {% else %}
+          <nav aria-label="Project sections">
+            <p class="rail-label">Project stages</p>
+            <a href="{{ '/#overview' | relative_url }}">Overview</a>
+            <a href="{{ '/#design-your-team' | relative_url }}">Design your team</a>
+            <a href="{{ '/#design-your-solution' | relative_url }}">Design your solution</a>
+            <a href="{{ '/#requirements' | relative_url }}">Requirements</a>
+            <a href="{{ '/#architecture' | relative_url }}">Architecture</a>
+            <a href="{{ '/#plan' | relative_url }}">Plan</a>
+            <a href="{{ '/#release' | relative_url }}">Release</a>
+            <a href="{{ '/#evaluate-and-triage' | relative_url }}">Evaluate and triage</a>
+            <a href="{{ '/#reflect' | relative_url }}">Reflect</a>
+            <a href="{{ '/#milestones' | relative_url }}">Milestones</a>
+            <a href="{{ '/notes/' | relative_url }}">Project notes →</a>
+          </nav>
+        {% endif %}
       </aside>
 
       <main id="project-content" class="syllabus-content project-content" tabindex="-1">

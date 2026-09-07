@@ -1,7 +1,10 @@
 (() => {
   const progress = document.querySelector(".reading-progress span");
   const railLinks = [...document.querySelectorAll(".section-rail a")];
-  const sections = railLinks
+  const sectionLinks = railLinks.filter(
+    (link) => link.hash && link.pathname === window.location.pathname
+  );
+  const sections = sectionLinks
     .map((link) => document.querySelector(link.hash))
     .filter(Boolean);
 
@@ -17,7 +20,7 @@
       if (section.getBoundingClientRect().top <= 130) current = section;
     }
 
-    for (const link of railLinks) {
+    for (const link of sectionLinks) {
       if (current && link.hash === "#" + current.id) {
         link.setAttribute("aria-current", "location");
       } else {
@@ -30,4 +33,3 @@
   window.addEventListener("scroll", update, { passive: true });
   window.addEventListener("resize", update);
 })();
-
