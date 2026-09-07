@@ -251,7 +251,18 @@ def check_source(errors: list[str]) -> None:
 
     layout = (ROOT / "_layouts" / "default.html").read_text(encoding="utf-8")
     if "data-typeface-picker" not in layout:
-        fail(errors, "layout is missing the reading-type selector")
+        fail(errors, "layout is missing the typeface-option selector")
+    if "<span>Typeface option</span>" not in layout:
+        fail(errors, "layout is missing the typeface-option label")
+    if not (
+        layout.find("</main>")
+        < layout.find('class="typeface-tools"')
+        < layout.find('class="site-footer"')
+    ):
+        fail(
+            errors,
+            "typeface option must appear after the page content and before the footer",
+        )
     for value in ('value="plex"', 'value="google-sans"'):
         if value not in layout:
             fail(errors, f"layout is missing typeface option {value}")
@@ -331,7 +342,7 @@ def check_build(errors: list[str]) -> None:
         if parser.typeface_pickers != 1:
             fail(
                 errors,
-                f"{page.relative_to(BUILD.resolve())}: expected one reading-type selector",
+                f"{page.relative_to(BUILD.resolve())}: expected one typeface-option selector",
             )
         for image in parser.images_without_alt:
             fail(errors, f"{page.relative_to(BUILD.resolve())}: image has empty alt text: {image}")
